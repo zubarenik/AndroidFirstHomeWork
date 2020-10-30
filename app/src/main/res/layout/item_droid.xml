@@ -9,7 +9,7 @@
 
         android:background="@color/droid_item_background"
 
-        tools:context="MainActivity"
+        tools:context=".MainActivity"
         >
     <ImageView
             android:id="@+id/image"

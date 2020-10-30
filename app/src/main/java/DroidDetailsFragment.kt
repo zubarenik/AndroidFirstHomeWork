@@ -11,11 +11,7 @@ class DroidDetailsFragment : DialogFragment() {
     companion object {
         const val EXTRAS_DROID = "DROID"
 
-
-        // helper-метод для создания инстанса фрагмента
-        // Это один из подходов в упрощении
         fun newInstance(droid: Droid): DroidDetailsFragment {
-            // Создаем данные, которые потом положим в фрагмент
             val extras = Bundle().apply {
                 putSerializable(EXTRAS_DROID, droid)
             }
@@ -38,32 +34,16 @@ class DroidDetailsFragment : DialogFragment() {
 
         val droid = droid()
         if (droid != null) {
-            // Устанавливаем имя
             view.findViewById<TextView>(R.id.name).text = droid.name
 
             val stateColor = when (droid.state) {
-                Droid.STATE_REMOVED -> R.color.color_red
-                Droid.STATE_NEW -> R.color.color_green
+                Droid.STATE_EVEN -> R.color.color_red
+                Droid.STATE_ODD -> R.color.color_blue
                 else -> R.color.color_black
-            }
-
-            val stateTitle = when (droid.state) {
-                Droid.STATE_REMOVED -> R.string.caption_droid_state_removed
-                Droid.STATE_NEW -> R.string.caption_droid_state_new
-                else -> R.string.caption_droid_state_unknown
-            }
-
-            view.findViewById<TextView>(R.id.state).apply {
-                // Устанавливаем название состояния
-                setText(stateTitle)
-
-                // Красим подложку в цвет, ассоциированный с состоянием
-                setBackgroundResource(stateColor)
             }
         }
     }
 
-    // Метод для доставания объекта Droid из аргументов фрагмента
     fun droid(): Droid? {
         return arguments?.getSerializable(EXTRAS_DROID) as? Droid
     }

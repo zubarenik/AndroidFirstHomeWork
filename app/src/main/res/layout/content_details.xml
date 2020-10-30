@@ -5,37 +5,21 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="300dp"
+        android:minHeight="200dp"
         android:minWidth="200dp"
 
         android:orientation="vertical"
         android:gravity="center"
         android:background="@color/droid_item_background"
 
-        tools:context="MainActivity">
+        tools:context=".MainActivity">
     <TextView
             android:id="@+id/name"
             android:layout_width="100dp"
-            android:layout_height="56dp"
+            android:layout_height="100dp"
 
             android:gravity="center"
 
             tools:text="RandomName"
-            />
-    <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-
-            android:text="@string/caption_droid_state"
-            />
-    <TextView
-            android:id="@+id/state"
-            android:layout_width="100dp"
-            android:layout_height="56dp"
-
-            android:gravity="center"
-
-            tools:text="@string/caption_droid_state_unknown"
             />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -10,14 +10,11 @@ import java.R
 
 
 class DroidListFragment : Fragment() {
-    // Вариант кода, для общения с activity без Intent
     interface IListener {
         fun onDroidClicked(droid: Droid)
     }
 
-
-    // Вариант кода, для общения с activity без Intent
-    protected var listener: IListener? = null
+    private var listener: IListener? = null
 
 
     override fun onAttach(context: Context) {
@@ -27,20 +24,16 @@ class DroidListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // устанавливаем верстку
         return inflater.inflate(
-                R.layout.content_list   // ресурс для "надувания" в дерево View
-                , container             // родитель, куда потом будет вставлена верстка
-                , false     // стоит false, что бы инфлейтер вернул верстку.
-                // Если поставить true, то инфлейтер вставит верстку в parent, и вернет тоже parent
-                // Мы сами в шоке от того, почему была сделана такая логика работы метод:(
+                R.layout.content_list,
+                container,
+                false
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // инициализируем View для отображения списка
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
         recycler.apply {
             adapter = DroidAdapter(DroidRepository.instance.list(), DroidClickHandler())
@@ -54,19 +47,11 @@ class DroidListFragment : Fragment() {
         listener = null
     }
 
-
-    // Одна из возможных реализаций отслеживания клика по элементу
-    // обработчик клика по элементу
     inner class DroidClickHandler: DroidViewHolder.IListener {
         override fun onDroidClicked(position: Int) {
             val droid = DroidRepository.instance.item(position)
 
-            // Вариант кода, для общения с activity без Intent
             listener?.onDroidClicked(droid)
-
-            // Вариант кода, для android:launchMode="singleInstance"
-//            val intent = MainActivity.droidDetailsIntent(requireContext(), droid)
-//            startActivity(intent)
         }
     }
 }
