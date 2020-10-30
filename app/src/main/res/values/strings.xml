@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">AndroidFirstHomework</string>
+    <string name="app_name">First Homework</string>
+
+    <string name="caption_droid_state">State</string>
+    <string name="caption_droid_state_removed">REMOVED</string>
+    <string name="caption_droid_state_new">NEW</string>
+    <string name="caption_droid_state_unknown">UNKNOWN</string>
 </resources>
