@@ -1,35 +1,28 @@
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.R
 
 
-class DroidViewHolder(itemView: View, val listener: IListener) : RecyclerView.ViewHolder(itemView) {
-    interface IListener {
-        fun onDroidClicked(position: Int)
-    }
+class DroidViewHolder(private val listener: (Droid) -> Unit, itemView: View)
+    : RecyclerView.ViewHolder(itemView) {
 
-    private val name: TextView
-    private val image: ImageView
+    private val droid: TextView
 
     init {
-        name = itemView.findViewById(R.id.name)
-        image = itemView.findViewById(R.id.image)
-
-        itemView.setOnClickListener {
-            listener.onDroidClicked(adapterPosition)
-        }
+        droid = itemView.findViewById(R.id.item)
     }
 
     fun bind(item: Droid) {
-        name.text = item.name
+        droid.text = item.name
 
-        val colorResId = when (item.state) {
+        val color = when (item.state) {
             Droid.STATE_EVEN -> R.color.color_red
             Droid.STATE_ODD -> R.color.color_blue
             else -> R.color.color_black
         }
-        image.setImageResource(colorResId)
+        droid.setTextColor(color)
+
+        droid.setOnClickListener { listener.invoke(item) }
     }
 }

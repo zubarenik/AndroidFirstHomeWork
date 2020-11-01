@@ -1,57 +1,51 @@
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.R
 
 
 class DroidListFragment : Fragment() {
-    interface IListener {
-        fun onDroidClicked(droid: Droid)
+    companion object {
+        private const val PORTRAIT_COLUMNS = 3
+        private const val LANDSPACE_COLUMNS = 4
     }
 
-    private var listener: IListener? = null
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        listener = requireActivity() as? IListener
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(
-                R.layout.content_list,
-                container,
-                false
-        )
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+            inflater.inflate(R.layout.item_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val droidAdapter = DroidAdapter(DroidRepository.instance.list(), ::listener)
+
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
         recycler.apply {
-            adapter = DroidAdapter(DroidRepository.instance.list(), DroidClickHandler())
-            layoutManager = LinearLayoutManager(context)
+            adapter = droidAdapter
+            layoutManager = GridLayoutManager(context, getColumns())
+        }
+
+        val button = view.findViewById<Button>(R.id.button)
+        button.setOnClickListener {
+            DroidRepository.instance.changeList()
+            droidAdapter.notifyDataSetChanged()
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-
-        listener = null
+    private fun listener(item: Droid){
+        requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.activity_layout, DroidDetailsFragment(item))
+                .addToBackStack(null)
+                .commit()
     }
 
-    inner class DroidClickHandler: DroidViewHolder.IListener {
-        override fun onDroidClicked(position: Int) {
-            val droid = DroidRepository.instance.item(position)
-
-            listener?.onDroidClicked(droid)
-        }
+    private fun getColumns() = when (resources.getBoolean(R.bool.is_land)) {
+        true -> LANDSPACE_COLUMNS
+        false -> PORTRAIT_COLUMNS
     }
 }

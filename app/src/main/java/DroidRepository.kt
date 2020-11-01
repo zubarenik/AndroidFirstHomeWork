@@ -3,7 +3,7 @@ import java.util.*
 
 class DroidRepository private constructor() {
     companion object {
-        const val DATA_SIZE = 100
+        const val DEFAULT_SIZE = 100;
         val instance by lazy { DroidRepository() }
     }
 
@@ -11,10 +11,21 @@ class DroidRepository private constructor() {
     fun list() = droidList
     fun item(index: Int) = droidList[index]
 
-    private fun initializeData(): List<Droid> {
-        val data = mutableListOf<Droid>()
+    fun changeList() {
+        val position = droidList.size + 1
+        val name = "$position"
+        val state = when (position % 2 == 0) {
+            true -> Droid.STATE_EVEN
+            false -> Droid.STATE_ODD
+        }
+        val newDroid = Droid(name, state)
+        droidList.add(newDroid)
+    }
 
-        for (position in 1 until DATA_SIZE + 1) {
+    private fun initializeData(): LinkedList<Droid> {
+        val data = LinkedList<Droid>()
+
+        for (position in 1 until DEFAULT_SIZE + 1) {
             val name = "$position"
             val state = when (position % 2 == 0) {
                 true -> Droid.STATE_EVEN
