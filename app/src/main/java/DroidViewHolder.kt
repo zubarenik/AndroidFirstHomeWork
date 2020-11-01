@@ -1,3 +1,4 @@
+import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +18,20 @@ class DroidViewHolder(private val listener: (Droid) -> Unit, itemView: View)
         droid.text = item.name
 
         val color = when (item.state) {
-            Droid.STATE_EVEN -> R.color.color_red
-            Droid.STATE_ODD -> R.color.color_blue
-            else -> R.color.color_black
+            Droid.STATE_EVEN -> convertColor(R.color.color_red)
+            Droid.STATE_ODD -> convertColor(R.color.color_blue)
+            else -> convertColor()
         }
         droid.setTextColor(color)
 
         droid.setOnClickListener { listener.invoke(item) }
+    }
+
+    private fun convertColor(color: Int = 0) : Int{
+        return when(color) {
+            R.color.color_red -> Color.RED
+            R.color.color_blue -> Color.BLUE
+            else -> Color.BLACK
+        }
     }
 }

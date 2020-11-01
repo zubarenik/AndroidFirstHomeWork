@@ -1,9 +1,10 @@
+import java.R
 import java.util.*
 
 
 class DroidRepository private constructor() {
     companion object {
-        const val DEFAULT_SIZE = 100;
+        const val DEFAULT_SIZE = 100
         val instance by lazy { DroidRepository() }
     }
 
